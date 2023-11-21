@@ -1,0 +1,7 @@
+P5 C 200
+P6 C 400
+P2 C 230
+P5 P 0
+P6 I disco
+P5 T
+P6 T
