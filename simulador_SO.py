@@ -130,7 +130,11 @@ class PageTable:  # apge table é um dicionario que associa a página desejada a
         return MP.frames[(self.pageTable[pageId])]
 
     def getPage(self, pageId, MP):
-        return MP.frames[(self.pageTable[pageId])].page
+        desiredPage = MP.frames[(self.pageTable[pageId])].page
+        if(desiredPage == None):
+            return MP.handlePageFaultById(pageId)
+        else:
+            return desiredPage
 
     def isPageInMemory(self, page_id):
         # Verifica se a página com o ID especificado está na memória principal.
@@ -256,6 +260,8 @@ class Memory:
             # Verifica e identifica a página menos recentemente utilizada (LRU)
             least_recently_used_page = self.findLeastRecentlyUsedPage()
 
+            if(least_recently_used_page.dirty):
+                print('Page is dirty, writing data to MS...')
             # Carrega a página da ms para a mp
             self.loadPageFromSecondaryMemory(
                 least_recently_used_page, missing_page_id)
@@ -715,3 +721,4 @@ def runSimulatorTest():
 #Testes do sistema:
 #runPagingTest()  # Rodem um teste ou outro, mas nn os dois pfvr
 runSimulatorTest()
+
